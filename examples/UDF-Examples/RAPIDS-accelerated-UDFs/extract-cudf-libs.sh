@@ -16,9 +16,9 @@
 #
 
 ###############################################################################
-# Extract libcudf.so from rapids-4-spark jar
+# Extract libcudf.so from cudf-spark jar
 #
-# This script extracts prebuilt cuDF libraries from the rapids-4-spark jar
+# This script extracts prebuilt cuDF libraries from the cudf-spark jar
 # to enable faster builds by avoiding building cuDF from source.
 #
 # Configuration values are read from pom.xml by default, but can be overridden
@@ -28,8 +28,8 @@
 #   ./extract-cudf-libs.sh
 #
 # Environment Variables (optional, will use pom.xml values if not set):
-#   RAPIDS_JAR_PATH      - explicit rapids-4-spark jar path
-#   RAPIDS4SPARK_VERSION - rapids-4-spark version (e.g., 26.12.0 or 26.12.0-SNAPSHOT)
+#   RAPIDS_JAR_PATH      - explicit cudf-spark jar path
+#   RAPIDS4SPARK_VERSION - cudf-spark version (e.g., 26.12.0 or 26.12.0-SNAPSHOT)
 #   SCALA_VERSION        - Scala binary version (e.g., 2.12, 2.13)
 #   CUDA_VERSION         - CUDA version (e.g., cuda11, cuda12)
 #   CUDF_BRANCH          - cuDF git branch for headers (e.g., main, branch-26.10)
@@ -107,14 +107,14 @@ echo "=================================================="
 mkdir -p "$NATIVE_DEPS_DIR"
 mkdir -p "$CUDF_REPO_DIR"
 
-# Find rapids-4-spark jar in local Maven repository
+# Find cudf-spark jar in local Maven repository
 MAVEN_REPO="${HOME}/.m2/repository"
 
 # Try multiple naming patterns
-JAR_PATH_WITH_CLASSIFIER="$MAVEN_REPO/com/nvidia/rapids-4-spark_${SCALA_VERSION}/${RAPIDS4SPARK_VERSION}/rapids-4-spark_${SCALA_VERSION}-${RAPIDS4SPARK_VERSION}-${CUDA_VERSION}.jar"
-JAR_PATH_NO_CLASSIFIER="$MAVEN_REPO/com/nvidia/rapids-4-spark_${SCALA_VERSION}/${RAPIDS4SPARK_VERSION}/rapids-4-spark_${SCALA_VERSION}-${RAPIDS4SPARK_VERSION}.jar"
+JAR_PATH_WITH_CLASSIFIER="$MAVEN_REPO/com/nvidia/cudf-spark_${SCALA_VERSION}/${RAPIDS4SPARK_VERSION}/cudf-spark_${SCALA_VERSION}-${RAPIDS4SPARK_VERSION}-${CUDA_VERSION}.jar"
+JAR_PATH_NO_CLASSIFIER="$MAVEN_REPO/com/nvidia/cudf-spark_${SCALA_VERSION}/${RAPIDS4SPARK_VERSION}/cudf-spark_${SCALA_VERSION}-${RAPIDS4SPARK_VERSION}.jar"
 
-echo "Looking for rapids-4-spark jar..."
+echo "Looking for cudf-spark jar..."
 if [ -n "${RAPIDS_JAR_PATH:-}" ]; then
     echo "  Explicit path: $RAPIDS_JAR_PATH"
 fi
@@ -132,7 +132,7 @@ elif [ -f "$JAR_PATH_NO_CLASSIFIER" ]; then
     echo "✓ Found jar (no classifier): $JAR_PATH"
 else
     echo ""
-    echo "ERROR: rapids-4-spark jar not found!"
+    echo "ERROR: cudf-spark jar not found!"
     echo "Tried:"
     if [ -n "${RAPIDS_JAR_PATH:-}" ]; then
         echo "  $RAPIDS_JAR_PATH"
@@ -145,7 +145,7 @@ else
     echo "  mvn clean install -DskipTests"
     echo ""
     echo "For release versions:"
-    echo "  mvn dependency:get -Dartifact=com.nvidia:rapids-4-spark_${SCALA_VERSION}:${RAPIDS4SPARK_VERSION}:jar:${CUDA_VERSION}"
+    echo "  mvn dependency:get -Dartifact=com.nvidia:cudf-spark_${SCALA_VERSION}:${RAPIDS4SPARK_VERSION}:jar:${CUDA_VERSION}"
     exit 1
 fi
 

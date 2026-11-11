@@ -52,7 +52,7 @@ trap 'ccache --show-stats' EXIT
 mvn -B clean package -Pudf-native-examples \
   -DUSE_PREBUILT_CUDF=ON -DGPU_ARCHS="80-real;89-real;90-real;120" \
   -DCPP_PARALLEL_LEVEL="$(nproc)" -Dmaven.repo.local=/cache/maven
-udf_jars=(target/rapids-4-spark-udf-examples*.jar)
+udf_jars=(target/cudf-spark-udf-examples*.jar)
 [[ ${#udf_jars[@]} -eq 1 ]]
 jar tf "${udf_jars[0]}" | grep -Fx "amd64/Linux/libudfexamplesjni.so"
 

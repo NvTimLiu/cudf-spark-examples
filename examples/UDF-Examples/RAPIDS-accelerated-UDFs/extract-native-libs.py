@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-"""Extract native cuDF libraries from a rapids-4-spark jar.
+"""Extract native cuDF libraries from a cudf-spark jar.
 
 Large native libraries may be stored as a versioned manifest and numbered
 chunks. This script supports both that representation and conventional jar
@@ -234,7 +234,7 @@ def extract_native_libraries(jar_path, output_dir):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("jar", help="rapids-4-spark jar")
+    parser.add_argument("jar", help="cudf-spark jar")
     parser.add_argument("output_dir", help="directory for reconstructed native libraries")
     args = parser.parse_args()
 

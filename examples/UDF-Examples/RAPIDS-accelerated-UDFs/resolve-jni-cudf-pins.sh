@@ -18,7 +18,7 @@
 set -euo pipefail
 
 if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 <rapids-4-spark-jar> <pins-output-dir> <properties-output-file>" >&2
+    echo "Usage: $0 <cudf-spark-jar> <pins-output-dir> <properties-output-file>" >&2
     exit 1
 fi
 
@@ -27,7 +27,7 @@ PINS_DIR="$2"
 PROPERTIES_FILE="$3"
 
 if [ ! -f "$JAR_PATH" ]; then
-    echo "ERROR: rapids-4-spark jar not found: $JAR_PATH" >&2
+    echo "ERROR: cudf-spark jar not found: $JAR_PATH" >&2
     exit 1
 fi
 
@@ -173,7 +173,7 @@ jar.rapids.cmake.file=$RAPIDS_CMAKE_FILE
 jar.cudf.pins.file=$VERSIONS_FILE
 EOF
 
-echo "Resolved native dependency pins from rapids-4-spark jar:"
+echo "Resolved native dependency pins from cudf-spark jar:"
 echo "  cudf-spark-jni revision: $JNI_REVISION"
 echo "  cuDF revision: $CUDF_REVISION"
 echo "  rapids-cmake sha: $RAPIDS_CMAKE_SHA"

@@ -124,8 +124,8 @@ jobs:
         with:
           name: gpu-ci-build-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            examples/UDF-Examples/RAPIDS-accelerated-UDFs/target/rapids-4-spark-udf-examples*.jar
-            examples/UDF-Examples/RAPIDS-accelerated-UDFs/target/dependency/rapids-4-spark*.jar
+            examples/UDF-Examples/RAPIDS-accelerated-UDFs/target/cudf-spark-udf-examples*.jar
+            examples/UDF-Examples/RAPIDS-accelerated-UDFs/target/dependency/cudf-spark*.jar
             examples/UDF-Examples/RAPIDS-accelerated-UDFs/target/native-runtime/*.so
             examples/UDF-Examples/RAPIDS-accelerated-UDFs/target/gpu-ci-source-sha.txt
           if-no-files-found: error

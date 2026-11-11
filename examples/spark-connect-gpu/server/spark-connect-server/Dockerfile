@@ -34,6 +34,6 @@ ENV CUDA_VERSION=${CUDA_VERSION}
 ENV RAPIDS_VERSION=${RAPIDS_VERSION}
 ENV REPO_URL=${REPO_URL}
 
-RUN wget -q ${REPO_URL}/com/nvidia/rapids-4-spark_2.13/${RAPIDS_VERSION}/rapids-4-spark_2.13-${RAPIDS_VERSION}-cuda${CUDA_VERSION}.jar -O /opt/spark-rapids/jars/rapids-4-spark-sql.jar
+RUN wget -q ${REPO_URL}/com/nvidia/cudf-spark_2.13/${RAPIDS_VERSION}/cudf-spark_2.13-${RAPIDS_VERSION}-cuda${CUDA_VERSION}.jar -O /opt/spark-rapids/jars/cudf-spark-sql.jar
 COPY spark-defaults.conf /opt/spark/conf/spark-defaults.conf
 COPY spark-env.sh /opt/spark/conf/spark-env.sh

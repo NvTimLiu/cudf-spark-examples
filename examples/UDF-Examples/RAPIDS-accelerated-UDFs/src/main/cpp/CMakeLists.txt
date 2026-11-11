@@ -144,14 +144,14 @@ else()
     set(USER_SET_USE_PREBUILT_CUDF FALSE)
 endif()
 
-option(USE_PREBUILT_CUDF "Use prebuilt libcudf.so from rapids-4-spark jar" ON)
+option(USE_PREBUILT_CUDF "Use prebuilt libcudf.so from cudf-spark jar" ON)
 
 message(STATUS "USE_PREBUILT_CUDF is set to: ${USE_PREBUILT_CUDF}")
 
 # Check if Maven created a marker to force source build
-# This happens when rapids-4-spark jar is not found
+# This happens when cudf-spark jar is not found
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../target/USE_SOURCE_BUILD")
-    message(STATUS "Found USE_SOURCE_BUILD marker file from Maven (rapids-4-spark jar not found)")
+    message(STATUS "Found USE_SOURCE_BUILD marker file from Maven (cudf-spark jar not found)")
 
     if(USE_PREBUILT_CUDF)
         if(USER_SET_USE_PREBUILT_CUDF)
@@ -159,7 +159,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../target/USE_SOURCE_BUILD")
             message(FATAL_ERROR 
                 "\n"
                 "================================================================\n"
-                "ERROR: rapids-4-spark jar not found, but USE_PREBUILT_CUDF=ON\n"
+                "ERROR: cudf-spark jar not found, but USE_PREBUILT_CUDF=ON\n"
                 "was explicitly set by the user.\n"
                 "\n"
                 "Cannot proceed with prebuilt mode because required libraries\n"
@@ -169,7 +169,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../target/USE_SOURCE_BUILD")
                 "  1. Remove -DUSE_PREBUILT_CUDF=ON to allow automatic fallback\n"
                 "     to building from source\n"
                 "\n"
-                "  2. Build and install rapids-4-spark:\n"
+                "  2. Build and install cudf-spark:\n"
                 "     cd /path/to/cudf-spark\n"
                 "     mvn clean install -DskipTests\n"
                 "\n"
@@ -194,7 +194,7 @@ if(USE_PREBUILT_CUDF AND NOT USER_SET_USE_PREBUILT_CUDF)
     set(CUDF_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../target/native-deps")
     set(CUDF_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../target/cudf-repo/cpp/include")
     
-    message(STATUS "Checking for prebuilt libcudf.so from rapids-4-spark jar")
+    message(STATUS "Checking for prebuilt libcudf.so from cudf-spark jar")
     message(STATUS "Looking in: ${CUDF_LIB_DIR}")
     
     # Check if prebuilt components are available
@@ -230,7 +230,7 @@ if(USE_PREBUILT_CUDF AND NOT USER_SET_USE_PREBUILT_CUDF)
             "This will take 30+ minutes.\n"
             "\n"
             "To use fast build mode in future:\n"
-            "  1. For SNAPSHOT versions: Build and install rapids-4-spark\n"
+            "  1. For SNAPSHOT versions: Build and install cudf-spark\n"
             "     cd /path/to/cudf-spark\n"
             "     mvn clean install -DskipTests\n"
             "  2. Run: mvn clean package -Pudf-native-examples\n"

@@ -56,8 +56,8 @@ fi
 
 # rapids import
 SPARK_RAPIDS_VERSION=26.10.0
-curl -L https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/${SPARK_RAPIDS_VERSION}/rapids-4-spark_2.12-${SPARK_RAPIDS_VERSION}.jar -o \
-    /databricks/jars/rapids-4-spark_2.12-${SPARK_RAPIDS_VERSION}.jar
+curl -L https://repo1.maven.org/maven2/com/nvidia/cudf-spark_2.12/${SPARK_RAPIDS_VERSION}/cudf-spark_2.12-${SPARK_RAPIDS_VERSION}.jar -o \
+    /databricks/jars/cudf-spark_2.12-${SPARK_RAPIDS_VERSION}.jar
 
 # setup cuda: install cudatoolkit 11.8 via runfile approach
 wget https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda_11.8.0_520.61.05_linux.run

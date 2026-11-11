@@ -131,10 +131,10 @@ nvidia-docker run -it my-local:my-udf-example
 #### Option 1: Fast Build Using Prebuilt libcudf (Recommended)
 
 Instead of building cuDF from source (which takes a long time), you can use the prebuilt `libcudf.so` 
-from the `rapids-4-spark` jar. This is much faster!
+from the `cudf-spark` jar. This is much faster!
 
 **Prerequisites:**
-- rapids-4-spark jar must be available in your local Maven repository
+- cudf-spark jar must be available in your local Maven repository
 
 **Steps:**
 
@@ -145,7 +145,7 @@ mvn clean package -Pudf-native-examples
 ```
 
 The build will automatically:
-- Extract `libcudf.so` from older rapids-4-spark jars or reconstruct it from
+- Extract `libcudf.so` from older cudf-spark jars or reconstruct it from
   the chunk-manifest representation used by newer jars
 - Read the embedded `cudf-spark-jni` and `cudf-java` version metadata from
   the jar
@@ -158,13 +158,13 @@ The build will automatically:
 
 Native UDFs compile C++ code against cuDF, RMM, and CCCL headers, and the
 resulting shared library is loaded with the `libcudf.so` packaged in the
-rapids-4-spark jar. Those native dependencies do not guarantee ABI
+cudf-spark jar. Those native dependencies do not guarantee ABI
 compatibility across RAPIDS releases or across different `-SNAPSHOT` builds.
 If the headers used at compile time do not match the `libcudf.so` in the jar,
 the UDF may fail with undefined symbols or crash when Spark loads the native
 library.
 
-When changing the rapids-4-spark jar version, rebuild the native UDFs with
+When changing the cudf-spark jar version, rebuild the native UDFs with
 matching cuDF/RMM/CCCL headers and libraries. In prebuilt mode, the Maven build
 derives those native dependency pins from the `cudf-spark-jni` revision
 recorded in the jar. After changing jar versions, remove `target/native-deps`,
@@ -206,7 +206,7 @@ mvn clean package -Pudf-native-examples -DUSE_PREBUILT_CUDF=OFF
 
 You can also edit `src/main/cpp/CMakeLists.txt` and set:
 ```cmake
-option(USE_PREBUILT_CUDF "Use prebuilt libcudf.so from rapids-4-spark jar" OFF)
+option(USE_PREBUILT_CUDF "Use prebuilt libcudf.so from cudf-spark jar" OFF)
 ```
 
 #### Configurable Maven Properties
@@ -215,7 +215,7 @@ You can customize the build by passing Maven system properties via `-D<property>
 
 | Maven Property | Default Value | Description |
 |----------------|---------------|-------------|
-| `USE_PREBUILT_CUDF` | `ON` | Use prebuilt libcudf.so from rapids-4-spark jar (faster build) |
+| `USE_PREBUILT_CUDF` | `ON` | Use prebuilt libcudf.so from cudf-spark jar (faster build) |
 | `GPU_ARCHS` | `RAPIDS` | GPU architectures to compile for (e.g., `60;70;75;80`) |
 | `CPP_PARALLEL_LEVEL` | `10` | Number of parallel compilation jobs |
 | `BUILD_UDF_BENCHMARKS` | `OFF` | Build benchmark executables |
@@ -247,7 +247,7 @@ unset CMAKE_CUDA_COMPILER_LAUNCHER
 unset CMAKE_CXX_LINKER_LAUNCHER
 ```
 
-The first build could take a long time (e.g.: 1.5 hours). Then the rapids-4-spark-udf-examples*.jar is
+The first build could take a long time (e.g.: 1.5 hours). Then the cudf-spark-udf-examples*.jar is
 generated under RAPIDS-accelerated-UDFs/target directory.
 The following build can benefit from ccache if you enable it.
 
@@ -278,13 +278,13 @@ then do the following inside the Docker container.
 
 ### Get jars from Maven Central
 
-[rapids-4-spark_2.12-26.10.0.jar](https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/26.10.0/rapids-4-spark_2.12-26.10.0.jar)
+[cudf-spark_2.12-26.10.0.jar](https://repo1.maven.org/maven2/com/nvidia/cudf-spark_2.12/26.10.0/cudf-spark_2.12-26.10.0.jar)
 
 
 ### Launch a local mode Spark
 
 ```bash
-export SPARK_RAPIDS_PLUGIN_JAR=path-to-rapids-4-spark-jar
+export SPARK_RAPIDS_PLUGIN_JAR=path-to-cudf-spark-jar
 export SPARK_RAPIDS_UDF_EXAMPLES_JAR=path-to-udf-examples-jar
 
 $SPARK_HOME/bin/pyspark --master local[*] \

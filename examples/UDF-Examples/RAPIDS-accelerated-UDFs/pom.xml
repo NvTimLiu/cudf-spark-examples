@@ -19,7 +19,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.nvidia</groupId>
-    <artifactId>rapids-4-spark-udf-examples_2.12</artifactId>
+    <artifactId>cudf-spark-udf-examples_2.12</artifactId>
     <name>NVIDIA cuDF plugin for Apache Spark UDF Examples</name>
     <description>Sample implementations of GPU-accelerated user-defined functions
         for use with the NVIDIA cuDF plugin for Apache Spark
@@ -65,7 +65,7 @@
         </dependency>
         <dependency>
             <groupId>com.nvidia</groupId>
-            <artifactId>rapids-4-spark_${scala.binary.version}</artifactId>
+            <artifactId>cudf-spark_${scala.binary.version}</artifactId>
             <version>${rapids4spark.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -143,7 +143,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <!-- copy rapids-4-spark.jar to dependency directory-->
+                <!-- copy cudf-spark.jar to dependency directory-->
                 <executions>
                     <execution>
                         <id>copy-dist-jar</id>
@@ -156,7 +156,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>com.nvidia</groupId>
-                                    <artifactId>rapids-4-spark_${scala.binary.version}</artifactId>
+                                    <artifactId>cudf-spark_${scala.binary.version}</artifactId>
                                     <version>${rapids4spark.version}</version>
                                 </artifactItem>
                             </artifactItems>
@@ -187,7 +187,7 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>com.nvidia</groupId>
-                                            <artifactId>rapids-4-spark_${scala.binary.version}</artifactId>
+                                            <artifactId>cudf-spark_${scala.binary.version}</artifactId>
                                             <version>${rapids4spark.version}</version>
                                             <classifier>${cuda.version}</classifier>
                                             <type>jar</type>
@@ -211,7 +211,7 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>com.nvidia</groupId>
-                                            <artifactId>rapids-4-spark_${scala.binary.version}</artifactId>
+                                            <artifactId>cudf-spark_${scala.binary.version}</artifactId>
                                             <version>${rapids4spark.version}</version>
                                             <!-- No classifier for SNAPSHOT versions -->
                                             <type>jar</type>
@@ -236,7 +236,7 @@
                                     <skip>${skipCudfExtraction}</skip>
                                     <target>
                                         <echo message="================================================"/>
-                                        <echo message="Extracting libcudf.so from rapids-4-spark jar..."/>
+                                        <echo message="Extracting libcudf.so from cudf-spark jar..."/>
                                         <echo message="USE_PREBUILT_CUDF=${USE_PREBUILT_CUDF}"/>
                                         <echo message="================================================"/>
 
@@ -268,21 +268,21 @@
 
                                         <!-- Pattern 1: Maven repo with classifier (release versions) -->
                                         <property name="rapids.jar.maven.with.classifier" 
-                                                  value="${maven.repo.normalized}/com/nvidia/rapids-4-spark_${scala.binary.version}/${rapids4spark.version}/rapids-4-spark_${scala.binary.version}-${rapids4spark.version}-${cuda.version}.jar"/>
+                                                  value="${maven.repo.normalized}/com/nvidia/cudf-spark_${scala.binary.version}/${rapids4spark.version}/cudf-spark_${scala.binary.version}-${rapids4spark.version}-${cuda.version}.jar"/>
 
                                         <!-- Pattern 2: Maven repo without classifier (SNAPSHOT versions) -->
                                         <property name="rapids.jar.maven.no.classifier" 
-                                                  value="${maven.repo.normalized}/com/nvidia/rapids-4-spark_${scala.binary.version}/${rapids4spark.version}/rapids-4-spark_${scala.binary.version}-${rapids4spark.version}.jar"/>
+                                                  value="${maven.repo.normalized}/com/nvidia/cudf-spark_${scala.binary.version}/${rapids4spark.version}/cudf-spark_${scala.binary.version}-${rapids4spark.version}.jar"/>
 
                                         <!-- Pattern 3: Downloaded with classifier (release versions) -->
                                         <property name="rapids.jar.downloaded.with.classifier" 
-                                                  value="${project.target.normalized}/rapids-jar/rapids-4-spark_${scala.binary.version}-${rapids4spark.version}-${cuda.version}.jar"/>
+                                                  value="${project.target.normalized}/rapids-jar/cudf-spark_${scala.binary.version}-${rapids4spark.version}-${cuda.version}.jar"/>
 
                                         <!-- Pattern 4: Downloaded without classifier (SNAPSHOT versions) -->
                                         <property name="rapids.jar.downloaded.no.classifier" 
-                                                  value="${project.target.normalized}/rapids-jar/rapids-4-spark_${scala.binary.version}-${rapids4spark.version}.jar"/>
+                                                  value="${project.target.normalized}/rapids-jar/cudf-spark_${scala.binary.version}-${rapids4spark.version}.jar"/>
 
-                                        <echo message="Looking for rapids-4-spark jar..."/>
+                                        <echo message="Looking for cudf-spark jar..."/>
                                         <echo message="  Pattern 1 (Maven with classifier):     ${rapids.jar.maven.with.classifier}"/>
                                         <echo message="  Pattern 2 (Maven no classifier):       ${rapids.jar.maven.no.classifier}"/>
                                         <echo message="  Pattern 3 (Downloaded with classifier): ${rapids.jar.downloaded.with.classifier}"/>
@@ -356,7 +356,7 @@
                                         <sequential if:set="rapids.jar.not.found" xmlns:if="ant:if">
                                             <echo message="" level="warning"/>
                                             <echo message="========================================================" level="warning"/>
-                                            <echo message="WARNING: rapids-4-spark jar not found!" level="warning"/>
+                                            <echo message="WARNING: cudf-spark jar not found!" level="warning"/>
                                             <echo message="========================================================" level="warning"/>
                                             <echo message="Tried locations:" level="warning"/>
                                             <echo message="  Maven (with classifier):    ${rapids.jar.maven.with.classifier}" level="warning"/>
@@ -402,7 +402,7 @@
                                             <echo message="✓ libcudf.so extracted to: ${project.build.directory}/native-deps"/>
 
                                             <!-- Resolve matching cuDF/RMM/CCCL pins from the cudf-spark-jni
-                                                 revision embedded in the rapids-4-spark jar. -->
+                                                 revision embedded in the cudf-spark jar. -->
                                             <chmod file="${basedir}/resolve-jni-cudf-pins.sh" perm="755"/>
                                             <exec executable="${basedir}/resolve-jni-cudf-pins.sh" failonerror="true">
                                                 <arg value="${rapids.jar.path}"/>
